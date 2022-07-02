@@ -1,1 +1,1 @@
-# Settings Social Share 
+# Settings Social Share
