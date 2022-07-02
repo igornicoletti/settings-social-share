@@ -1,73 +1,38 @@
-/* 
-Init function with your container selector
-initSocialShare('.headerFullCtnGridSubShare')
-initSocialShare('.headerMbCtnGridMenuSliceSliceCtSubShare')
- */
+const thumbUrl = document.querySelector('[data-thumb-url]')
+const pageTitle = document.querySelector('[data-page-title]')
 
-/* 
-Social Share Links
-WhatsApp: https://wa.me/?text=[post-title] [post-url]
-Facebook: https://www.facebook.com/sharer.php?u=[post-url]
-Twitter: https://twitter.com/share?url=[post-url]&text=[post-title]
-LinkedIn: https://www.linkedin.com/shareArticle?url=[post-url]&title=[post-title]
-Pinterest: https://pinterest.com/pin/create/bookmarklet/?media=[post-img]&url=[post-url]&is_video=[is_video]&description=[post-title]
- */
+initSocialShare = socialShare => {
+  const shareData = document.querySelector(socialShare)
 
-let thumbUrl = document.querySelector('[data-thumb-url]')
-let pageTitle = document.querySelector('[data-page-title]')
+  const thumbData = thumbUrl.getAttribute('data-thumb-url')
+  const titleData = pageTitle.getAttribute('data-page-title')
 
-function initSocialShare(sharebtnContainer) {
-  let shareBtnContainer = document.querySelector(sharebtnContainer)
+  const postImg = encodeURI(thumbData)
+  const postTitle = encodeURI(titleData)
+  const postUrl = encodeURI(document.location.href)
+
+  const twitterData = document.querySelector('[data-share="twitter"]')
+  const facebookData = shareData.querySelector('[data-share="facebook"]')
+  const linkedinData = shareData.querySelector('[data-share="linkedin"]')
+  const whatsappData = shareData.querySelector('[data-share="whatsapp"]')
+  const pinterestData = document.querySelector('[data-share="pinterest"]')
 
   if (!pageTitle) return
-  if (!shareBtnContainer) return
+  if (!shareData) return
   if (!thumbUrl || !pageTitle) return
 
-  let thumbData = thumbUrl.getAttribute('data-thumb-url')
-  let titleData = pageTitle.getAttribute('data-page-title')
+  if (whatsappData)
+    whatsappData.setAttribute('href', 'https://wa.me/?text=' + postTitle + ' ' + postUrl)
 
-  let pinterestBtn = document.querySelector(".pinterest-btn")
-  let twitterBtn = document.querySelector('[data-share="twitter-btn"]')
+  if (facebookData)
+    facebookData.setAttribute('href', 'https://www.facebook.com/sharer.php?u=' + postUrl)
 
-  let postImg = encodeURI(thumbData)
-  let postTitle = encodeURI(titleData)
-  let postUrl = encodeURI(document.location.href)
+  if (twitterData)
+    twitterData.setAttribute('href', 'https://twitter.com/share?url=' + postUrl + '&text=' + postTitle)
 
-  let facebookBtn = shareBtnContainer.querySelector('[data-share="facebook-btn"]')
-  let linkedinBtn = shareBtnContainer.querySelector('[data-share="linkedin-btn"]')
-  let whatsappBtn = shareBtnContainer.querySelector('[data-share="whatsapp-btn"]')
+  if (linkedinData)
+    linkedinData.setAttribute('href', 'https://www.linkedin.com/shareArticle?url=' + postUrl + '&title=' + postTitle)
 
-  if (whatsappBtn) {
-    whatsappBtn.setAttribute(
-      "href",
-      'https://wa.me/?text=' + postTitle + ' ' + postUrl
-    )
-  }
-
-  if (facebookBtn) {
-    facebookBtn.setAttribute(
-      "href", 'https://www.facebook.com/sharer.php?u=' + postUrl
-    )
-  }
-
-  if (twitterBtn) {
-    twitterBtn.setAttribute(
-      "href",
-      'https://twitter.com/share?url=' + postUrl + '&text=' + postTitle
-    )
-  }
-
-  if (linkedinBtn) {
-    linkedinBtn.setAttribute(
-      "href",
-      'https://www.linkedin.com/shareArticle?url=' + postUrl + '&title=' + postTitle
-    )
-  }
-
-  if (pinterestBtn) {
-    pinterestBtn.setAttribute(
-      "href",
-      'https://pinterest.com/pin/create/bookmarklet/?media=' + postImg + '&url=' + postUrl + '&description=' + postTitle
-    )
-  }
+  if (pinterestData)
+    pinterestData.setAttribute('href', 'https://pinterest.com/pin/create/bookmarklet/?media=' + postImg + '&url=' + postUrl + '&description=' + postTitle)
 }
